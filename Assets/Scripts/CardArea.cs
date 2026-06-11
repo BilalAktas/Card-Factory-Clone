@@ -82,7 +82,7 @@ namespace Core
                 ReleaseTheGroup(() =>
                 {
                     _currentReleaseGroupIndex++;
-                    AdjustCards();    
+                    AdjustCards();
                 });
                 
             }
@@ -115,6 +115,8 @@ namespace Core
         {
             try
             {
+                if (Core.Factory.Instance.RealCurrentCardAmount + _cardGroups[_currentReleaseGroupIndex].Count > 20) return;
+                
                 var cards = new List<Card>();
                 foreach (var card in _cardGroups[_currentReleaseGroupIndex])
                 {
@@ -124,6 +126,10 @@ namespace Core
 
                 await ReleaseTheGroupTask(cards);
                 
+                EventBus.Raise(new OnCardGroupLeftCardAreaEvent()
+                {
+                    Amount = cards.Count
+                });
                 completed?.Invoke();
             }
             catch (Exception e)
@@ -136,7 +142,7 @@ namespace Core
             foreach (var card in cards)
             {
                 card.LeaveCardArea();
-                await Task.Delay(75);
+                await Helpers.WaitForSecondsUnity(.05f);
             }
         }
     }

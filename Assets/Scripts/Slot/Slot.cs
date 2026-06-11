@@ -13,10 +13,11 @@ namespace Core
             Visual = visual;
         }
 
-        public void SetCard(Card card)
+        public void SetCard(Card card, int state)
         {
             Card = card;
-            Card.MoveToSlot(this);
+            if (Card == null) return;
+            Card.MoveToSlot(this, state);
         }
     }
 }

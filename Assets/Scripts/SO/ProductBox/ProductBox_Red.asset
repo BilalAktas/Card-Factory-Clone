@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: ProductBox_Red
   m_EditorClassIdentifier: Assembly-CSharp::Core.ProductBoxData
   _cardColor: 0
-  _cardMaterialColor: {r: 1, g: 0.41568628, b: 0.30980393, a: 1}
+  _cardMaterialColor: {r: 0.7924528, g: 0.25131577, b: 0.15325737, a: 1}
+  _cardOutlineMaterialColor: {r: 1, g: 0.41568628, b: 0.30980393, a: 1}

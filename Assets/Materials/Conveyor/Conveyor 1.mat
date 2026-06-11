@@ -94,7 +94,7 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ConveyorSpeed: -0.5
+    - _ConveyorSpeed: -1
     - _Conveyor_Tile: 1
     - _Cull: 2
     - _Cutoff: 0.5

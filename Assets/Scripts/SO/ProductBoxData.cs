@@ -7,8 +7,10 @@ namespace Core
     {
         [SerializeField] private CardColor _cardColor;
         [SerializeField] private Color _cardMaterialColor;
+        [SerializeField] private Color _cardOutlineMaterialColor;
         
         public CardColor CardColor => _cardColor;
         public Color CardMaterialColor => _cardMaterialColor;
+        public Color CardOutlineMaterialColor => _cardOutlineMaterialColor;
     }
 }

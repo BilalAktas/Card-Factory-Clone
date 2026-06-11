@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
@@ -15,6 +16,8 @@ namespace Core
         private bool _canSelect = true;
         
         private Camera _camera;
+        [SerializeField] private RectTransform _handRect;
+        [SerializeField] private Vector3 _handOffset;
 
         private void Start()
         {
@@ -30,6 +33,9 @@ namespace Core
         
         private void Update()
         {
+            _handRect.position = Mouse.current.position.value;
+            _handRect.position += _handOffset;
+            
             if (!_canSelect) return;
             // if (Touch.activeTouches.Count == 0) return;
             //
@@ -42,7 +48,8 @@ namespace Core
         private void HandleTap(Vector3 pos)
         {
             if (_firstSelect && Time.time - _currentTime < _coolDown) return;
-
+            _handRect.DOPunchScale(Vector3.one * -.25f, .2f, 1, .8f);
+            
             _currentTime = Time.time;
             var ray = _camera.ScreenPointToRay(pos);
             if (Physics.Raycast(ray, out var hit))
