@@ -292,7 +292,7 @@ MonoBehaviour:
   _amountFillImage: {fileID: 1483749179905881867}
   _mesh: {fileID: 3611860819770307801}
   _colorMaterials:
-  - {fileID: 2100000, guid: 797788c1d542b6542afb5b4894919e56, type: 2}
+  - {fileID: 2100000, guid: 193d9a7631b854246becb13bb7d48b62, type: 2}
   - {fileID: 2100000, guid: 5340a4c3f12bf32469b56564f5e98a09, type: 2}
 --- !u!1 &3646640569031229625
 GameObject:
@@ -851,10 +851,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6929608226189764177, guid: 556a1bb590efbf04f85cdfd01be9ef2f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -3649327050295148037, guid: 556a1bb590efbf04f85cdfd01be9ef2f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 797788c1d542b6542afb5b4894919e56, type: 2}
+      objectReference: {fileID: 2100000, guid: 193d9a7631b854246becb13bb7d48b62, type: 2}
     - target: {fileID: 919132149155446097, guid: 556a1bb590efbf04f85cdfd01be9ef2f, type: 3}
       propertyPath: m_Name
       value: slot_machine_conveyor

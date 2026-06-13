@@ -35,8 +35,6 @@ namespace Core
         
         private void Update()
         {
-            
-            
             if (!_canSelect) return;
 
             if(Mouse.current.leftButton.wasPressedThisFrame) HandleTap(Mouse.current.position.value);

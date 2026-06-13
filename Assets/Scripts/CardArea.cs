@@ -132,7 +132,7 @@ namespace Core
         {
             try
             {
-                if (!Core.Factory.Instance.CheckReleaseAmountToReceive(_cardGroups[_currentReleaseGroupIndex].Count))
+                if (!Factory.Instance.CheckReleaseAmountToReceive(_cardGroups[_currentReleaseGroupIndex].Count))
                     return; 
                 var cards = new List<Card>();
                 foreach (var card in _cardGroups[_currentReleaseGroupIndex])
