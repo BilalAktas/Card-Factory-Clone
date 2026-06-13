@@ -32,7 +32,7 @@ namespace Core
         private Sequence _moveSlotSequence;
         private Collider _collider;
         [SerializeField] private AudioSource _leaveAreaSfx;
-        
+        private float _startOffset;
         
         private void Awake()
         {
@@ -102,21 +102,21 @@ namespace Core
 
         public void SetGroupOnArea(int index) => _groupIndexOnArea = index;
 
-        public void LeaveCardArea()
+        public void LeaveCardArea(float space)
         {
             EventBus.Raise(new OnCardLeftCardAreaEvent()
             {
                 Card = this
             });
-            GoToFactory();
+            GoToFactory(space);
         }
 
-        public void LeaveSlotArea()
+        public void LeaveSlotArea(float space)
         {
-            GoToFactory();
+            GoToFactory(space);
         }
 
-        private void GoToFactory()
+        private void GoToFactory(float space)
         {
             _leaveAreaSfx?.Play();
 
@@ -130,7 +130,11 @@ namespace Core
             path[0] = factoryTransform.position + factoryTransform.forward * 5f + Vector3.up * 25f;
             //path[1] = factoryTransform.position + factoryTransform.forward * 5f + Vector3.up * 25;
             path[1] = factoryTransform.position + factoryTransform.forward * -3f + Vector3.up * 5f;
-            seq.Append(transform.DOPath(path, 1f, PathType.CatmullRom)).SetEase(Ease.Linear);
+            
+            seq.Append(transform.DOPath(path, .5f + (space * .02f), PathType.CatmullRom)
+                .SetEase(Ease.Linear));
+            
+            //seq.Append(transform.DOPath(path, 1f, PathType.CatmullRom)).SetEase(Ease.Linear);
             seq.Join(transform.DOScale(new Vector3(4, 10, 5), .25f));
             seq.AppendCallback(() =>
             {
@@ -143,10 +147,10 @@ namespace Core
             switch (exState)
             {
                 case CardState.OnSlotArea:
-                    seq.Insert(.2f, transform.DORotateQuaternion(r * Quaternion.Euler(90,-180,0), .5f).SetEase(Ease.Linear));        
+                    seq.Insert(.05f, transform.DORotateQuaternion(r * Quaternion.Euler(90,-180,0), .5f).SetEase(Ease.Linear));        
                     break;
                 case CardState.OnCardArea:
-                    seq.Insert(.2f, transform.DORotateQuaternion(r * Quaternion.Euler(90,-180,0), .5f).SetEase(Ease.Linear));
+                    seq.Insert(.05f, transform.DORotateQuaternion(r * Quaternion.Euler(90,-180,0), .5f).SetEase(Ease.Linear));
                     break;
             }
             seq.OnComplete(() =>
@@ -156,15 +160,20 @@ namespace Core
             });
         }
 
-        public void StartMoveOnContainer()
+        
+        public void StartMoveOnContainer(float offset)
         {
+            _startOffset = offset;
             _timer = 0;
-            transform.DOMove(_currentCardArea.Container.EvaluatePosition(0), .2f).OnComplete(() =>
+            _canMoveOnContainer = true;
+
+            transform.DOMove(
+                _currentCardArea.Container.EvaluatePosition(0f),
+                0.1f
+            ).OnComplete(() =>
             {
-                _canMoveOnContainer = true;
-                transform.DOScale(new Vector3(4, 10, 5), .2f);
+                transform.DOScale(new Vector3(4, 10, 5), .05f);
             });
-            
         }
         
         private void Update()
@@ -172,17 +181,27 @@ namespace Core
             if(GameManager.Instance.GameState == GameState.Idle) return;
             if (!_canMoveOnContainer) return;
             
-            transform.position = _currentCardArea.Container.EvaluatePosition(_timer);
-            transform.position += Vector3.up * 5.5f;
-            
-            Vector3 tan = _currentCardArea.Container.EvaluateTangent(_timer);
+            _timer += CardData.CardSpeedOnContainer * Time.deltaTime;
+
+            var t = _timer - _startOffset;
+
+            if (t < 0)
+                return;
+
+            Vector3 pos = _currentCardArea.Container.EvaluatePosition(t);
+            transform.position = pos + Vector3.up * 5.5f;
+
+            Vector3 tan = _currentCardArea.Container.EvaluateTangent(t);
+
             if (tan.sqrMagnitude > 1e-6f)
             {
                 var dir = tan.normalized;
                 transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
-                transform.localEulerAngles = new Vector3(90f, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                transform.localEulerAngles =
+                    new Vector3(90f, transform.localEulerAngles.y, transform.localEulerAngles.z);
             }
-            _timer += CardData.CardSpeedOnContainer * Time.deltaTime;
+            
+            
             if (Physics.Raycast(transform.position, transform.right, out var hit, 10))
             {
                 if (hit.transform.TryGetComponent(out ProductBox box))
@@ -219,7 +238,7 @@ namespace Core
             }    
             
             
-            if (_timer >= 1)
+            if (t >= 1)
             {
                 _canMoveOnContainer = false;
                 EventBus.Raise(new OnCardMoveOnContainerEndEvent()

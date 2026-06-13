@@ -154,23 +154,25 @@ namespace Core
             {
                 while (_cardGroups.Count > 0 && GameManager.Instance.GameState == GameState.Playing)
                 {
-                    await Helpers.WaitForSecondsUnity(.01f);
                     token.ThrowIfCancellationRequested();
 
                     var cards = _cardGroups.Dequeue();
 
+                    var index = 0;
                     foreach (var card in cards)
                     {
-                        await Helpers.WaitForSecondsUnity(.06f);
+                        //await Helpers.WaitForSecondsUnity(.06f);
 
                         token.ThrowIfCancellationRequested();
 
-                        card.StartMoveOnContainer();
-
-
+                        card.StartMoveOnContainer(index * .02f);
+                        index++;
+                        
                         if (token.IsCancellationRequested || GameManager.Instance.GameState == GameState.Idle)
                             return;
                     }
+                    
+                    await Helpers.WaitForSecondsUnity(.25f + (cards.Count * .1f));
                 }
             }
             catch (OperationCanceledException)

@@ -19,6 +19,8 @@ namespace Core
         private int _currentReleaseGroupIndex;
         
         public SplineContainer Container;
+        private Sequence _warnSequence;
+        
         private void Start()
         {
             SpawnAndAdjustCard(_cardDatas.Length);
@@ -105,26 +107,31 @@ namespace Core
             }
             else
                 WarnForFalseGroupToRelease(cardGroup);
+            
             return matched;
         }
 
         private void WarnForFalseGroupToRelease(int cardGroup)
         {
+            _warnSequence?.Complete();
+            foreach (var card in _cardGroups[cardGroup])
+                card.transform.localPosition = new Vector3(0,card.transform.localPosition.y, card.transform.localPosition.z);
+            
             foreach (var card in _cardGroups[cardGroup])
                 WarnCardBounce(card.transform, card.transform.localPosition.x);
         }
 
         private void WarnCardBounce(Transform t, float startX)
         {
-            var seq = DOTween.Sequence();
+            _warnSequence = DOTween.Sequence();
 
-            seq.Append(t.DOLocalMoveX(startX + 1.2f, 0.15f).SetEase(Ease.OutQuad));
-            seq.Append(t.DOLocalMoveX(startX, 0.08f).SetEase(Ease.InQuad));
+            _warnSequence.Append(t.DOLocalMoveX(startX + 1.2f, 0.15f).SetEase(Ease.OutQuad));
+            _warnSequence.Append(t.DOLocalMoveX(startX, 0.08f).SetEase(Ease.InQuad));
 
             for (int i = 0; i < 2; i++)
             {
-                seq.Append(t.DOLocalMoveX(startX + 0.4f, 0.05f).SetEase(Ease.OutQuad));
-                seq.Append(t.DOLocalMoveX(startX, 0.08f).SetEase(Ease.InQuad));
+                _warnSequence.Append(t.DOLocalMoveX(startX + 0.4f, 0.05f).SetEase(Ease.OutQuad));
+                _warnSequence.Append(t.DOLocalMoveX(startX, 0.08f).SetEase(Ease.InQuad));
             }
         }
 
@@ -156,10 +163,12 @@ namespace Core
 
         private async Task ReleaseTheGroupTask(List<Card> cards)
         {
+            var i = 0;
             foreach (var card in cards)
             {
-                await Helpers.WaitForSecondsUnity(.02f);
-                card.LeaveCardArea();
+                card.LeaveCardArea(i);
+                i++;
+                await Helpers.WaitForSecondsUnity(.03f);
             }
         }
     }

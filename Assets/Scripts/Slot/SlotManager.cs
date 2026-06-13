@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -58,8 +59,9 @@ namespace Core
             }
             if (!Factory.Instance.CheckReleaseAmountToReceive(_cards[groupIndex].Count))
                 return;
-            
-            await ReleaseTheGroupTask(_cards[groupIndex]);
+
+            var s = _cards[groupIndex].ToList();
+            await ReleaseTheGroupTask(s);
             EventBus.Raise(new OnCardGroupLeftCardAreaEvent()
             {
                 Cards = _cards[groupIndex]
@@ -109,11 +111,12 @@ namespace Core
 
         private async Task ReleaseTheGroupTask(List<Card> cards)
         {
+            var i = 0;
             foreach (var card in cards)
             {
-                await Helpers.WaitForSecondsUnity(.02f);
+                //
                 
-                card.LeaveSlotArea();
+                card.LeaveSlotArea(i * .05f);
                 _cardAmount--;
                 foreach (var slot in _slots)
                 {
@@ -123,6 +126,10 @@ namespace Core
                         break;
                     }
                 }
+
+                i++;
+                
+                await Helpers.WaitForSecondsUnity(.03f);
             }
         }
 
