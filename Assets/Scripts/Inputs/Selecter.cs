@@ -21,28 +21,34 @@ namespace Core
 
         private void Start()
         {
-            //EnhancedTouchSupport.Enable();
+            EnhancedTouchSupport.Enable();
             _camera = Camera.main;
             EventBus.Subscribe<OnGameFailedEvent>(OnGameFailed);
+            EventBus.Subscribe<OnLevelSpawnedEvent>(OnLevelSpawned);
         }
         
         private void OnDestroy()
         {
             EventBus.Unsubscribe<OnGameFailedEvent>(OnGameFailed);
+            EventBus.Unsubscribe<OnLevelSpawnedEvent>(OnLevelSpawned);
         }
         
         private void Update()
         {
-            _handRect.position = Mouse.current.position.value;
-            _handRect.position += _handOffset;
+            
             
             if (!_canSelect) return;
+
+            if(Mouse.current.leftButton.wasPressedThisFrame) HandleTap(Mouse.current.position.value);
+             _handRect.position = Mouse.current.position.value;
+             _handRect.position += _handOffset;
+            
             // if (Touch.activeTouches.Count == 0) return;
             //
             // var t = Touch.activeTouches[0];
             // if(t.phase == TouchPhase.Began) HandleTap(t.screenPosition);
             
-            if(Mouse.current.leftButton.wasPressedThisFrame) HandleTap(Mouse.current.position.value);
+           
         }
    
         private void HandleTap(Vector3 pos)
@@ -63,5 +69,6 @@ namespace Core
         }
         
         private void OnGameFailed(OnGameFailedEvent data) => _canSelect = false;
+        private void OnLevelSpawned(OnLevelSpawnedEvent data) => _canSelect = true;
     }
 }

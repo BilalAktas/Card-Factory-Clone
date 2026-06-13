@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Core
 {
     public struct OnCardLeftCardAreaEvent : IEvent { public Card Card; }
@@ -11,7 +13,18 @@ namespace Core
         public ProductBox Box;
     }
     
-    public struct OnCardGroupLeftCardAreaEvent : IEvent { public int Amount; }
+    public struct OnCardGroupLeftCardAreaEvent : IEvent { public List<Card> Cards; }
+    
+    public struct OnProductBoxFilledEvent : IEvent
+    {
+        public int ProductBoxAreaIndex;
+    }
+    public struct OnLevelCompletedEvent : IEvent { }
+    
+    public struct OnLevelSpawnedEvent : IEvent { }
+    public struct OnNextLevelButtonClickedEvent : IEvent { }
+    
+    public struct OnGameResetEvent : IEvent { }
     
     public class Events
     {

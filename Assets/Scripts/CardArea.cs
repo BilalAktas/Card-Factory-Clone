@@ -11,31 +11,48 @@ namespace Core
     {
         [SerializeField] private CardData[] _cardDatas;
         private List<Card> _cards = new();
-
-        [SerializeField] private GameObject _cardPrefab;
+        private List<Card> _cardsTemp = new();
+        
         private Dictionary<int, List<Card>> _cardGroups = new();
         private int _lastCardGroupIndex;
 
         private int _currentReleaseGroupIndex;
-
-        public Transform Factory;
-        public SplineContainer Container;
         
+        public SplineContainer Container;
         private void Start()
         {
             SpawnAndAdjustCard(_cardDatas.Length);
+            EventBus.Subscribe<OnGameResetEvent>(OnGameReset);
+        }
+
+        private void OnDestroy()
+        {
+            EventBus.Unsubscribe<OnGameResetEvent>(OnGameReset);
+        }
+
+        private void OnGameReset(OnGameResetEvent data)
+        {
+            foreach (var card in _cardsTemp)
+                ObjectPool.Instance.Deposit(card.gameObject, "Card");
         }
 
         private void SpawnAndAdjustCard(int amount)
         {
             for (var j = 0; j < amount; j++)
             {
-                var clone = Instantiate(_cardPrefab, transform);
+                var clone = ObjectPool.Instance.GetFromPool("Card");
+       
+                clone.transform.SetParent(transform);
+                clone.transform.localScale = new Vector3(4, 2, 5);
+                clone.transform.localEulerAngles = Vector3.zero;
+                clone.SetActive(true);
+                
                 var card = clone.GetComponent<Card>();
 
                 var i = _cards.Count;
             
                 _cards.Add(card);
+                _cardsTemp.Add(card);
                 clone.transform.localPosition = new Vector3(0, i * -.2f, i * -.5f);
                 card.SetAllProperty(_cardDatas[i], this);
 
@@ -115,8 +132,8 @@ namespace Core
         {
             try
             {
-                if (Core.Factory.Instance.RealCurrentCardAmount + _cardGroups[_currentReleaseGroupIndex].Count > 20) return;
-                
+                if (!Core.Factory.Instance.CheckReleaseAmountToReceive(_cardGroups[_currentReleaseGroupIndex].Count))
+                    return; 
                 var cards = new List<Card>();
                 foreach (var card in _cardGroups[_currentReleaseGroupIndex])
                 {
@@ -128,7 +145,7 @@ namespace Core
                 
                 EventBus.Raise(new OnCardGroupLeftCardAreaEvent()
                 {
-                    Amount = cards.Count
+                    Cards = cards
                 });
                 completed?.Invoke();
             }
@@ -141,8 +158,8 @@ namespace Core
         {
             foreach (var card in cards)
             {
+                await Helpers.WaitForSecondsUnity(.02f);
                 card.LeaveCardArea();
-                await Helpers.WaitForSecondsUnity(.05f);
             }
         }
     }

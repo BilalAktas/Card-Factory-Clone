@@ -118,7 +118,7 @@ TextureImporter:
         width: 1408
         height: 768
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -127,6 +127,72 @@ TextureImporter:
       bones: []
       spriteID: 11fc44086daf3fe4eb7ae74321cea26a
       internalID: 1871515887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ground_0
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 340
+        width: 82
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 729f768256562c3429dcfda3cfde0de2
+      internalID: -1012043784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ground_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1408
+        height: 768
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc281cd43855b794dafaf3dec33dc565
+      internalID: 1918479105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ground_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1408
+        height: 768
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acaea7af58d151940a7559e03803fc24
+      internalID: -550920964
       vertices: []
       indices: 
       edges: []
@@ -146,6 +212,9 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Gemini_Generated_Image_tm3kbxtm3kbxtm3k_0: 1871515887
+      ground_0: -1012043784
+      ground_1: 1918479105
+      ground_2: -550920964
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

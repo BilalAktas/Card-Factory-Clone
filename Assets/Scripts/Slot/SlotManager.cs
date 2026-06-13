@@ -7,7 +7,7 @@ namespace Core
     public class SlotManager : MonoBehaviour
     {
         private List<Slot> _slots = new();
-        [SerializeField] private GameObject _slotPrefab;
+        
 
         private Dictionary<int, List<Card>> _cards = new();
         private int _lastGroupIndex;
@@ -16,27 +16,37 @@ namespace Core
 
         private void Start()
         {
-            for (var i = 0; i < 20; i++)
+            for (var i = 0; i < LevelManager.Instance.GetCurrentLevelData().SlotAmount; i++)
             {
-                var clone = Instantiate(_slotPrefab, transform);
+                var clone = ObjectPool.Instance.GetFromPool("SlotBox");
+                clone.transform.SetParent(transform);
                 clone.transform.localPosition = new Vector3(i * 1.2f, 0, 0);
+                clone.transform.localScale = new Vector3(5.5f, 4, 5.5f);
+                clone.SetActive(true);
                 var slot = new Slot(null, clone.transform);
                 _slots.Add(slot);
             }
 
             EventBus.Subscribe<OnCardMoveOnContainerEndEvent>(OnCardMoveOnContainerEnd);
             EventBus.Subscribe<OnCardLeftSlotAreaEvent>(OnCardLeftSlotArea);
+            EventBus.Subscribe<OnGameResetEvent>(OnGameReset);
         }
 
         private void OnDestroy()
         {
             EventBus.Unsubscribe<OnCardMoveOnContainerEndEvent>(OnCardMoveOnContainerEnd);
             EventBus.Unsubscribe<OnCardLeftSlotAreaEvent>(OnCardLeftSlotArea);
+            EventBus.Unsubscribe<OnGameResetEvent>(OnGameReset);
+        }
+
+        private void OnGameReset(OnGameResetEvent data)
+        {
+            foreach (var slot in _slots)
+                ObjectPool.Instance.Deposit(slot.Visual.gameObject, "SlotBox");
         }
 
         private async void OnCardLeftSlotArea(OnCardLeftSlotAreaEvent data)
         {
-            
             var groupIndex = 0;
             foreach (var card in _cards)
             {
@@ -46,11 +56,13 @@ namespace Core
                     break;
                 }
             }
-
+            if (!Factory.Instance.CheckReleaseAmountToReceive(_cards[groupIndex].Count))
+                return;
+            
             await ReleaseTheGroupTask(_cards[groupIndex]);
             EventBus.Raise(new OnCardGroupLeftCardAreaEvent()
             {
-                Amount = _cards[groupIndex].Count
+                Cards = _cards[groupIndex]
             });
             
             _cards[groupIndex].Clear();
@@ -99,6 +111,8 @@ namespace Core
         {
             foreach (var card in cards)
             {
+                await Helpers.WaitForSecondsUnity(.02f);
+                
                 card.LeaveSlotArea();
                 _cardAmount--;
                 foreach (var slot in _slots)
@@ -109,8 +123,6 @@ namespace Core
                         break;
                     }
                 }
-
-                await Helpers.WaitForSecondsUnity(.05f);
             }
         }
 

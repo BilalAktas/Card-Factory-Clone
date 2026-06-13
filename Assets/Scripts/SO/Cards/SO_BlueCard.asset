@@ -16,4 +16,4 @@ MonoBehaviour:
   _cardMaterialColor: {r: 0.14489143, g: 0.33487478, b: 0.8301887, a: 1}
   _cardOutlineMeshMaterialColor: {r: 0.1882353, g: 0.40784314, b: 0.98039216, a: 1}
   _cardOutlineColor: {r: 0.078497685, g: 0.27642578, b: 0.7924528, a: 1}
-  _cardSpeedOnContainer: 0.3
+  _cardSpeedOnContainer: 0.25

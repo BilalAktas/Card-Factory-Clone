@@ -182,7 +182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.ProductBox
   _filledSound: {fileID: 2635907560640129112}
-  _filledParticlePrefab: {fileID: 3311634385269689824, guid: cb82407a6a029b14f9b8631578a2f401, type: 3}
 --- !u!65 &4643507683579446909
 BoxCollider:
   m_ObjectHideFlags: 0

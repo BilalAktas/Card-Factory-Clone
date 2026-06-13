@@ -15,7 +15,6 @@ namespace Core
 
         private int _matched;
         [SerializeField] private AudioSource _filledSound;
-        [SerializeField] private GameObject _filledParticlePrefab;
 
         private void Awake()
         {
@@ -23,13 +22,21 @@ namespace Core
             _meshRenderer = GetComponentsInChildren<MeshRenderer>();
 
             EventBus.Subscribe<OnMatchedEvent>(OnMatched);
+            EventBus.Subscribe<OnGameResetEvent>(OnGameReset);
         }
 
         private void OnDestroy()
         {
             EventBus.Unsubscribe<OnMatchedEvent>(OnMatched);
+            EventBus.Unsubscribe<OnGameResetEvent>(OnGameReset);
         }
-
+        
+        private void OnGameReset(OnGameResetEvent data)
+        {
+            _matched = 0;
+            _slots = new Dictionary<Transform, Card>();
+        }
+        
         private void OnMatched(OnMatchedEvent data)
         {
             if (data.Box != this) return;
@@ -49,8 +56,20 @@ namespace Core
 
             seq.OnComplete(() =>
             {
-                var clone = Instantiate(_filledParticlePrefab);
+                foreach (var renderer in _meshRenderer)
+                {
+                    var card = _slots[renderer.transform];
+                    if (card)
+                        ObjectPool.Instance.Deposit(card.gameObject, "Card");
+                }
+                
+                var clone = ObjectPool.Instance.GetFromPool("ProductBoxFillParticle");
                 clone.transform.position = transform.position + Vector3.up * 3f;
+                clone.SetActive(true);
+                EventBus.Raise(new OnProductBoxFilledEvent()
+                {
+                    ProductBoxAreaIndex = transform.parent.GetSiblingIndex()
+                });
             });
         }
 
@@ -88,6 +107,8 @@ namespace Core
 
                 _slots[renderer.transform] = null;
             }
+
+            transform.DOScale(Vector3.one, .15f).SetEase(Ease.Linear);
         }
 
         public (bool, Transform) AttachCard(Card card)

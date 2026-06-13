@@ -14,7 +14,7 @@ namespace Core
             set
             {
                 _cardState = value;
-                GetComponent<Collider>().enabled = _cardState != CardState.OnContainer;
+                _collider.enabled = _cardState != CardState.OnContainer;
             }
         }
         
@@ -30,7 +30,7 @@ namespace Core
         private float _timer;
 
         private Sequence _moveSlotSequence;
-        
+        private Collider _collider;
         [SerializeField] private AudioSource _leaveAreaSfx;
         
         
@@ -38,8 +38,14 @@ namespace Core
         {
             _materialPropertyBlock = new MaterialPropertyBlock();
             _meshRenderer = GetComponent<MeshRenderer>();
+            _collider = GetComponent<Collider>();
             
             EventBus.Subscribe<OnGameFailedEvent>(OnGameFailed);
+        }
+
+        private void OnEnable()
+        {
+            CardState = CardState.OnCardArea;
         }
 
         private void OnDestroy()
@@ -50,8 +56,6 @@ namespace Core
 
         public void Select()
         {
-            if (CardState == CardState.OnContainer) return;
-
             switch (CardState)
             {
                 case CardState.OnCardArea:
@@ -68,13 +72,15 @@ namespace Core
             
         }
 
-        public bool Clickable() => true;
+        public bool Clickable() => CardState != CardState.OnContainer;
 
         public void SetAllProperty(CardData data, CardArea cardArea)
         {
             CardData = data;
             _currentCardArea = cardArea;
-           
+
+            CardState = CardState.OnCardArea;
+            
             for (var i = 0; i < _meshRenderer.sharedMaterials.Length; i++)
             {
                 if (i == 0)
@@ -119,10 +125,11 @@ namespace Core
             transform.SetParent(null);
             var seq = DOTween.Sequence();
             
-            var path = new Vector3[3];
-            path[0] = _currentCardArea.Factory.position + _currentCardArea.Factory.forward * 10f + Vector3.up * 6f;
-            path[1] = _currentCardArea.Factory.position + _currentCardArea.Factory.forward * 5f + Vector3.up * 25;
-            path[2] = _currentCardArea.Factory.position +  _currentCardArea.Factory.forward * -4f + Vector3.up * 2f;
+            var path = new Vector3[2];
+            var factoryTransform = Factory.Instance.transform;
+            path[0] = factoryTransform.position + factoryTransform.forward * 5f + Vector3.up * 25f;
+            //path[1] = factoryTransform.position + factoryTransform.forward * 5f + Vector3.up * 25;
+            path[1] = factoryTransform.position + factoryTransform.forward * -3f + Vector3.up * 5f;
             seq.Append(transform.DOPath(path, 1f, PathType.CatmullRom)).SetEase(Ease.Linear);
             seq.Join(transform.DOScale(new Vector3(4, 10, 5), .25f));
             seq.AppendCallback(() =>
@@ -132,18 +139,19 @@ namespace Core
                     Card = this
                 });
             });
-            var r = _currentCardArea.Factory.rotation;
+            var r = factoryTransform.rotation;
             switch (exState)
             {
                 case CardState.OnSlotArea:
-                    seq.Insert(.1f, transform.DORotateQuaternion(r * Quaternion.Euler(90,-180,0), .5f).SetEase(Ease.Linear));        
+                    seq.Insert(.2f, transform.DORotateQuaternion(r * Quaternion.Euler(90,-180,0), .5f).SetEase(Ease.Linear));        
                     break;
                 case CardState.OnCardArea:
-                    seq.Insert(.1f, transform.DORotateQuaternion(r * Quaternion.Euler(90,-180,0), .5f).SetEase(Ease.Linear));
+                    seq.Insert(.2f, transform.DORotateQuaternion(r * Quaternion.Euler(90,-180,0), .5f).SetEase(Ease.Linear));
                     break;
             }
             seq.OnComplete(() =>
             {
+                transform.localScale = Vector3.zero;
                 //_canMoveOnContainer = true;
             });
         }
@@ -151,15 +159,19 @@ namespace Core
         public void StartMoveOnContainer()
         {
             _timer = 0;
-            _canMoveOnContainer = true;
+            transform.DOMove(_currentCardArea.Container.EvaluatePosition(0), .2f).OnComplete(() =>
+            {
+                _canMoveOnContainer = true;
+                transform.DOScale(new Vector3(4, 10, 5), .2f);
+            });
+            
         }
         
         private void Update()
         {
+            if(GameManager.Instance.GameState == GameState.Idle) return;
             if (!_canMoveOnContainer) return;
             
-            _timer += CardData.CardSpeedOnContainer * Time.deltaTime;
-
             transform.position = _currentCardArea.Container.EvaluatePosition(_timer);
             transform.position += Vector3.up * 5.5f;
             
@@ -170,7 +182,7 @@ namespace Core
                 transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
                 transform.localEulerAngles = new Vector3(90f, transform.localEulerAngles.y, transform.localEulerAngles.z);
             }
-            
+            _timer += CardData.CardSpeedOnContainer * Time.deltaTime;
             if (Physics.Raycast(transform.position, transform.right, out var hit, 10))
             {
                 if (hit.transform.TryGetComponent(out ProductBox box))
@@ -188,7 +200,7 @@ namespace Core
                                 transform.SetParent(s.Item2.parent);
                                 var seq = DOTween.Sequence();
                                 seq.Append(transform.DOLocalJump(s.Item2.localPosition + Vector3.up * 2.5f, 5f,1, .5f));
-                                seq.Insert(.25f, transform.DOLocalRotateQuaternion(
+                                seq.Insert(.05f, transform.DOLocalRotateQuaternion(
                                     s.Item2.localRotation * Quaternion.Euler(0, 0, 90), .25f));
                                 seq.Insert(.2f, transform.DOScale(new Vector3(4, 10, 3), .25f));
 
@@ -257,7 +269,11 @@ namespace Core
                 transform.rotation = Quaternion.Euler(0, 180, 90);
             });
         }
-        
-        private void OnGameFailed(OnGameFailedEvent data) => _canMoveOnContainer = false;
+
+        private void OnGameFailed(OnGameFailedEvent data)
+        {
+            _canMoveOnContainer = false;
+            transform.DOKill();
+        }
     }
 }
