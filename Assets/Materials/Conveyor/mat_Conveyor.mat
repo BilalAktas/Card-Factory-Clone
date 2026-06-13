@@ -69,7 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2D:
-        m_Texture: {fileID: 2800000, guid: 3f66b6d8f5c2fb342ba5b9a0e87865c1, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9c94dd8e7c3a96247ac4e2c68121e4ea, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -95,6 +95,7 @@ Material:
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _ConveyorSpeed: -1
+    - _Conveyor_Offset_X: 0.25
     - _Conveyor_Tile: 1
     - _Cull: 2
     - _Cutoff: 0.5
@@ -128,7 +129,8 @@ Material:
     - _BaseColor: {r: 0.19215687, g: 0.22352941, b: 0.34117648, a: 1}
     - _Color: {r: 0.23529407, g: 0.23529407, b: 0.4313725, a: 1}
     - _Color_1: {r: 0.38039216, g: 0.39215687, b: 0.5411765, a: 1}
-    - _Color_2: {r: 0.3137255, g: 0.3372549, b: 0.4745098, a: 1}
+    - _Color_2: {r: 0.34015664, g: 0.3511622, b: 0.49056602, a: 1}
+    - _Conveyor_Tile: {r: 0.5, g: 1, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Speed: {r: 0.5, g: 0, b: 0, a: 0}

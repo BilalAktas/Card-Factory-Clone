@@ -257,9 +257,9 @@ Material:
     - _IridescenceSmoothness: 0.5
     - _IridescenceThresholdOffset: 0
     - _Light: 2
-    - _LightBands: 4
-    - _LightBandsScale: 0.113
-    - _LightThreshold: 0.452
+    - _LightBands: 2
+    - _LightBandsScale: 0
+    - _LightThreshold: 0.726
     - _LightTransmission: 0
     - _LightTransmissionDistortion: 0.25
     - _LightTransmissionIntensity: 1
@@ -290,7 +290,7 @@ Material:
     - _Roughness: 1
     - _Saturation: 1
     - _SketchMapScale: 1
-    - _Smoothness: 0.605
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _Specular: 1
     - _SpecularHighlights: 1
@@ -323,14 +323,14 @@ Material:
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
-    - _AlbedoColor: {r: 0.37561145, g: 0.745283, b: 0.14413491, a: 1}
+    - _AlbedoColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
     - _BaseColor: {r: 0.745283, g: 0.03163936, b: 0.03163936, a: 1}
-    - _Color: {r: 0.37561142, g: 0.745283, b: 0.14413488, a: 1}
+    - _Color: {r: 0.8113207, g: 0.8113207, b: 0.8113207, a: 1}
     - _DetailColor: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _GoochDarkColor: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
+    - _GoochDarkColor: {r: 0, g: 0, b: 0, a: 1}
     - _IridescenceColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _LightTransmissionColor: {r: 1, g: 0.65, b: 0, a: 1}
     - _OutlineColor: {r: 0.8018868, g: 0.34420612, b: 0.34420612, a: 1}
