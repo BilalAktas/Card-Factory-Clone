@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Lofelt.NiceVibrations;
+using UnityEngine;
 
 namespace Core
 {
@@ -32,6 +33,8 @@ namespace Core
 
         private void OnGameFailed(OnGameFailedEvent data)
         {
+            HapticPatterns.PlayPreset(HapticPatterns.PresetType.Success);
+            
             GameState = GameState.Idle;
             _loseScreenUI.SetActive(true);
             _loseAudio.Play();
@@ -39,6 +42,8 @@ namespace Core
 
         private void OnLevelCompleted(OnLevelCompletedEvent data)
         {
+            HapticPatterns.PlayPreset(HapticPatterns.PresetType.Failure);
+            
             GameState = GameState.Idle;
             _winScreenUI.SetActive(true);
             _winAudio.Play();

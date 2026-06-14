@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DG.Tweening;
+using Lofelt.NiceVibrations;
 using UnityEngine;
 
 namespace Core
@@ -49,6 +50,8 @@ namespace Core
 
             _filledSound.Play();
 
+            HapticPatterns.PlayPreset(HapticPatterns.PresetType.MediumImpact);
+            
             var seq = DOTween.Sequence();
             seq.Insert(.2f, transform.DOMove(transform.position + Vector3.up * 2f, .2f));
             seq.Append(transform.DOScale(Vector3.one * .25f, .2f));

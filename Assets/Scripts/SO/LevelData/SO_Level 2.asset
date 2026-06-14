@@ -15,17 +15,17 @@ MonoBehaviour:
   _productAreaForLevelDatas:
   - ProductAreaId: 0
     ProductBoxDatas:
-    - {fileID: 11400000, guid: c88a10aaa0262da45b18e211fbd98179, type: 2}
-    - {fileID: 11400000, guid: 7d0d44ec6ee97cb4b8b782e7fbb5493f, type: 2}
     - {fileID: 11400000, guid: 585c52945c9b29548912b3641ebc0c8f, type: 2}
     - {fileID: 11400000, guid: c88a10aaa0262da45b18e211fbd98179, type: 2}
     - {fileID: 11400000, guid: 7d0d44ec6ee97cb4b8b782e7fbb5493f, type: 2}
+    - {fileID: 11400000, guid: 7d0d44ec6ee97cb4b8b782e7fbb5493f, type: 2}
+    - {fileID: 11400000, guid: c88a10aaa0262da45b18e211fbd98179, type: 2}
   - ProductAreaId: 1
     ProductBoxDatas:
-    - {fileID: 11400000, guid: 585c52945c9b29548912b3641ebc0c8f, type: 2}
-    - {fileID: 11400000, guid: c88a10aaa0262da45b18e211fbd98179, type: 2}
     - {fileID: 11400000, guid: 45d7a74e8a9ffe9498471b2309881c8a, type: 2}
     - {fileID: 11400000, guid: 585c52945c9b29548912b3641ebc0c8f, type: 2}
+    - {fileID: 11400000, guid: 585c52945c9b29548912b3641ebc0c8f, type: 2}
+    - {fileID: 11400000, guid: c88a10aaa0262da45b18e211fbd98179, type: 2}
   _maxCardAmountOnConveyor: 20
   _levelBasePrefab: {fileID: 1034895788573788035, guid: b4b9e2aaea6637b4693e5bd7b3aae643, type: 3}
   _slotAmount: 20

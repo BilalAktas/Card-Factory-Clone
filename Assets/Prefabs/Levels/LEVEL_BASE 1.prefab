@@ -877,15 +877,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.CardArea
   _cardDatas:
-  - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
-  - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
-  - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
-  - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
-  - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
-  - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
   - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
   - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
   - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
+  - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
+  - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
+  - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
+  - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
+  - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
+  - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
   - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
   - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
   - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
@@ -936,12 +936,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.CardArea
   _cardDatas:
-  - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
-  - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
-  - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
-  - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
-  - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
-  - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
   - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
   - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
   - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
@@ -950,6 +944,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6a2f7873f910f664d8d2067fda4da5e7, type: 2}
   - {fileID: 11400000, guid: 306ecff1127aa2e4180cb87f23481ef6, type: 2}
   - {fileID: 11400000, guid: 306ecff1127aa2e4180cb87f23481ef6, type: 2}
+  - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
+  - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
+  - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
+  - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
+  - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
+  - {fileID: 11400000, guid: bcdf6860121fe6642b5434f3b9e8cc51, type: 2}
   Container: {fileID: 6902655361399910208}
 --- !u!1 &6788445980185775252
 GameObject:

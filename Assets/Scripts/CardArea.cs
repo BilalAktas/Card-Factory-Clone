@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DG.Tweening;
+using Lofelt.NiceVibrations;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -123,6 +124,8 @@ namespace Core
 
         private void WarnCardBounce(Transform t, float startX)
         {
+            HapticPatterns.PlayPreset(HapticPatterns.PresetType.MediumImpact);
+            
             _warnSequence = DOTween.Sequence();
 
             _warnSequence.Append(t.DOLocalMoveX(startX + 1.2f, 0.15f).SetEase(Ease.OutQuad));
@@ -141,6 +144,9 @@ namespace Core
             {
                 if (!Factory.Instance.CheckReleaseAmountToReceive(_cardGroups[_currentReleaseGroupIndex].Count))
                     return; 
+                
+                HapticPatterns.PlayPreset(HapticPatterns.PresetType.MediumImpact);
+                
                 var cards = new List<Card>();
                 foreach (var card in _cardGroups[_currentReleaseGroupIndex])
                 {

@@ -35,16 +35,18 @@ namespace Core
         
         private void Update()
         {
+            // _handRect.position = Mouse.current.position.value;
+            // _handRect.position += _handOffset;
+            
             if (!_canSelect) return;
 
-            if(Mouse.current.leftButton.wasPressedThisFrame) HandleTap(Mouse.current.position.value);
-             _handRect.position = Mouse.current.position.value;
-             _handRect.position += _handOffset;
+            //if(Mouse.current.leftButton.wasPressedThisFrame) HandleTap(Mouse.current.position.value);
             
-            // if (Touch.activeTouches.Count == 0) return;
-            //
-            // var t = Touch.activeTouches[0];
-            // if(t.phase == TouchPhase.Began) HandleTap(t.screenPosition);
+            
+            if (Touch.activeTouches.Count == 0) return;
+            
+            var t = Touch.activeTouches[0];
+            if(t.phase == TouchPhase.Began) HandleTap(t.screenPosition);
             
            
         }

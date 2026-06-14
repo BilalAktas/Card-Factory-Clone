@@ -115,7 +115,7 @@ namespace Core
 
         private void OnCardLeftCardArea(OnCardLeftCardAreaEvent data)
         {
-            RealCurrentCardAmount++;
+            //RealCurrentCardAmount++;
         }
 
         private void OnCardArrivedFactory(OnCardArrivedFactoryEvent data)
@@ -143,6 +143,7 @@ namespace Core
 
         private void OnCardGroupLeftCardArea(OnCardGroupLeftCardAreaEvent data)
         {
+            RealCurrentCardAmount += data.Cards.Count;
             _arrivedCards.Enqueue(data.Cards.ToList());
         }
 
